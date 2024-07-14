@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost:3307";
-$username = "root"; 
-$password = "";  
+$username = "root"; // Default XAMPP username
+$password = ""; // Default XAMPP password
 $dbname = "pup_forms_db";
 
 // Create connection
