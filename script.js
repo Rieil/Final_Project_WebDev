@@ -13,6 +13,22 @@ function redirectToHome() {
     window.location.href = "home.html";
 }
 
+// Function to handle logging out and redirecting to the landing page
+function logout() {
+    // Clear any login indication (e.g., session or local storage)
+    sessionStorage.removeItem('loggedIn');
+    window.location.href = "landing.html"; 
+}
+
+// Function to handle home button behavior
+function handleHomeButton() {
+    if (sessionStorage.getItem('loggedIn')) {
+        redirectToHome();
+    } else {
+        window.location.href = "landing.html"; 
+    }
+}
+
 // Event listeners for buttons and form submissions
 document.addEventListener("DOMContentLoaded", function() {
     // Get buttons
@@ -20,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const loginBtns = document.querySelectorAll(".login-btn");
     const signinBtn = document.querySelector(".signin-btn");
     const loginaccBtn = document.querySelector(".loginacc-btn");
+    const homeBtns = document.querySelectorAll(".home-btn");
+    const logoutBtn = document.querySelector(".logout-btn");
 
     // Add click event listeners to all Sign Up buttons
     signupBtns.forEach(function(button) {
@@ -31,24 +49,36 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click", redirectToLogin);
     });
 
+    // Add click event listeners to all Home buttons
+    homeBtns.forEach(function(button) {
+        button.addEventListener("click", handleHomeButton);
+    });
+
+    // Add click event listener to Logout button
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", logout);
+    }
+
     // Add submit event listener to Sign In button in Sign Up form
     if (signinBtn) {
         signinBtn.addEventListener("click", function(event) {
             event.preventDefault(); // Prevent form submission (for demonstration)
-            const firstname = document.getElementById("firstname").value.trim();
-            const lastname = document.getElementById("lastname").value.trim();
-            const studentnumber = document.getElementById("studentnumber").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const confirmpassword = document.getElementById("confirmpassword").value.trim();
+            
+            const signupForm = new FormData(document.getElementById("signupForm"));
 
-            // Perform form validation if needed
-            if (firstname === '' || lastname === '' || studentnumber === '' || password === '' || confirmpassword === '') {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            // Redirect to home page after form submission
-            redirectToHome();
+            fetch('http://localhost/Final_forms/signup.php', {
+                method: 'POST',
+                body: signupForm
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                if (data.includes("successfully")) {
+                    sessionStorage.setItem('loggedIn', true);
+                    redirectToHome();
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     }
 
@@ -56,17 +86,22 @@ document.addEventListener("DOMContentLoaded", function() {
     if (loginaccBtn) {
         loginaccBtn.addEventListener("click", function(event) {
             event.preventDefault(); // Prevent form submission (for demonstration)
-            const studentnumberLogin = document.getElementById("studentnumber-login").value.trim();
-            const passwordLogin = document.getElementById("password-login").value.trim();
+            
+            const loginForm = new FormData(document.getElementById("loginForm"));
 
-            // Perform form validation if needed
-            if (studentnumberLogin === '' || passwordLogin === '') {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            // Redirect to home page after form submission
-            redirectToHome();
+            fetch('http://localhost/Final_forms/login.php', {
+                method: 'POST',
+                body: loginForm
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                if (data.includes("successful")) {
+                    sessionStorage.setItem('loggedIn', true);
+                    redirectToHome();
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     }
 });

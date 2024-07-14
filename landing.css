@@ -67,7 +67,7 @@ nav ul a:hover {
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
-.auth-buttons button {
+.auth-buttons button, .logout-home button {
     background-color: #FFE500;      /* Initial background color */
     color: #8b0000;
     border: none;                   /* Remove border */
@@ -81,7 +81,7 @@ nav ul a:hover {
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; /* Added transform */
 }
 
-.auth-buttons button:hover, .started-btn:hover {
+.auth-buttons button:hover, .started-btn:hover, .logout-home button:hover {
     background-color: #FFF;   /* Background color on hover */
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
     transform: translateY(-2px); /* Lift the button on hover */
