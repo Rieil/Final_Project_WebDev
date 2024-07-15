@@ -1,6 +1,6 @@
 <?php
 // Database connection parameters
-$servername = "localhost:3307"; // Update the port if necessary
+$servername = "localhost:3306"; // Update the port if necessary
 $username = "root";
 $password = "";
 $dbname = "pup_forms_db";
